@@ -49,7 +49,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     // here if the username and email already does not exists then the data must be inserted to the database
     if(($password == $cpassword) && $userExists == false && $emailExists == false){
 
-        $sql = "INSERT INTO `users` (`username`, `email`, `password`, `dt`) VALUES ('$username', '$email', '$password', current_timestamp());";
+        $hash = password_hash($password, PASSWORD_DEFAULT);
+
+        $sql = "INSERT INTO `users` (`username`, `email`, `password`, `dt`) VALUES ('$username', '$email', '$hash', current_timestamp());";
 
         $result = mysqli_query($conn,$sql);
 
@@ -87,6 +89,13 @@ if($showAlert){
     <strong>Success!</strong> Your account   successfully created you can login now.
     <button type="button" class="btn-close"  data-bs-dismiss="alert" aria-label="Close"></button>
     </div>';
+
+    echo '<script>
+    setTimeout(function() {
+        window.location.href = "login.php";
+    }, 2000);
+    </script>';
+   
 }
 
 if($passwordMismatch){
@@ -94,6 +103,7 @@ if($passwordMismatch){
     <strong>Error!</strong> Passwords must be same.
     <button type="button" class="btn-close"  data-bs-dismiss="alert" aria-label="Close"></button>
     </div>';
+    
 }
 if($emailExists){
     echo  '<div class="alert alert-danger              alert-dismissible fade show" role="alert">

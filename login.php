@@ -8,31 +8,28 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $email = $_POST["email"];
     $password = $_POST["password"];
     
+    $sql1 = "SELECT * FROM `users` WHERE email='$email';";
+    $result1 = mysqli_query($conn, $sql1);
 
+    if($result1 && mysqli_num_rows($result1) == 1){
+        $row = mysqli_fetch_assoc($result1);
 
-    
-    $sql1 = "SELECT * FROM `users` WHERE email='$email' AND password='$password';";
-    $result1 = mysqli_query($conn,$sql1);
-    // $result1 will contain pointer if success else will be FALSE if mysqli_query() fails;
-    if($result1){
-        
-        if(mysqli_num_rows($result1) == 1){
+        if(password_verify($password, $row['password'])){
+
+            // password_verify() will return boolean value;
             $login = true;
             session_start();
             $_SESSION['loggedin'] = true;
             $_SESSION['email'] = $email;
             header("location: welcome.php");
-            // header() is used to redirect to a url;
-
-           
-
-        } else{
-            $showError = true;
-            }
-
-    }    
+            exit();
+        } else {
+            $showError = true; // Incorrect password
+        }
+    } else {
+        $showError = true; // Incorrect email or query failed
+    }
 }
-
 ?>
 
 
