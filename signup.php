@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
             // Insert the new user into the database
-            $sql = "INSERT INTO `users` (`username`, `email`, `password`, `dt`) VALUES ('$username', '$email', '$hashedPassword', current_timestamp());";
+            $sql = "INSERT INTO `users` (`username`, `email`, `password`, `dt`, `first_login`) VALUES ('$username', '$email', '$hashedPassword', current_timestamp(), TRUE);";
             $result = mysqli_query($conn, $sql);
 
             if ($result) {
