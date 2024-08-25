@@ -1,4 +1,4 @@
-Login and Sign-Up System with PHP, MySQL, and Bootstrap
+##Login and Sign-Up System with PHP, MySQL, and Bootstrap
 
 
 User Registration: Users can create an account by providing their details. Passwords are securely hashed before being stored in the MySQL database.
